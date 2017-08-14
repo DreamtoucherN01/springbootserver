@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
+	<script src="https://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+	
+	<title>首页</title>
+	<style type="text/css">
+	
+		ul#nav{ width:100%; height:60px; background:#00A2CA;margin:0 auto} 
+		ul#nav li{display:inline; height:60px} 
+		ul#nav li a{display:inline-block; padding:0 20px; height:60px; line-height:60px;
+		 color:#FFF; font-family:"\5FAE\8F6F\96C5\9ED1"; font-size:16px} 
+		ul#nav li a:hover{background:#0095BB}/*设置鼠标滑过或悬停时变化的背景颜色*/ 
+	</style>
+	<style>
+		table, th , td  {
+		  border: 1px solid grey;
+		  border-collapse: collapse;
+		  padding: 5px;
+		}
+		table tr:nth-child(odd)	{
+		  background-color: #f1f1f1;
+		}
+		table tr:nth-child(even) {
+		  background-color: #ffffff;
+		}
+	</style>
+	<script>     
+		function getLocalTime(nS) {     
+			alert(nS)
+		   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+		}    
+		function checkSize() {     
+		}     
+	</script> 
+	</head>
+	<body ng-app = "myApp" ng-controller="siteCtrl">	
+      		
+    	<ul id="nav"> 
+		    <li><a href="index.html">修改分类以及分类商品</a></li> 
+		    <li><a href="link.html">主题信息</a></li>
+		    <li><a href="opinion.html">我想说</a></li> 
+		    <li><a href="upload.html">我要上传</a></li>
+		</ul> 
+		
+		<div>
+		
+			<div style="margin-top:20px;margin-left:30px;margin-right:30px;">
+				<form method="POST" enctype="multipart/form-data" action="/file/upload" target="_blank">  
+				    选择文件上传（不要超过1M）： <input type="file" name="file" ng-model="file" onblur="checkSize()"><br /> 
+				    指定文件名称: <input  type="text" name="name" ng-model="name"><br /> <br /> 
+				        <input type="submit"  value="Upload"> Press here to upload the file!  
+				</form>  
+				<br><br><br>
+				<hr>
+				<div style="margin-top:50px;">
+					文件上传注意事项！请不要上传超过1M的图片，上传完成后请使用https://55157548.qcloud.la/web/picture/+name+.jpg访问
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script>
+	var app = angular.module('myApp', []);
+	app.controller('siteCtrl', function($scope, $http) {
+		
+		$scope.upload = function(){
+			
+			var fd = new FormData();
+			var file = document.querySelector('input[type=file]').files[0];
+			fd.append('logo', file); 
+			$http.post("/file/upload/?name="+$scope.name+"&data="+fd)
+			  		.then(function (response) {alert("上传成功");});
+			location.reload()
+		};
+		
+		$scope.transferTo = function(id){
+			location.href="detail.html?id=" + id;
+		};
+		$scope.saveClassfy = function(){
+		  	
+			$http.post("/classify/add/?name="+$scope.name+"&remark="+$scope.remark)
+		  		.then(function (response) {
+		  			
+		  			alert("成功添加")
+		  			location.reload()
+		  		});
+	  	};
+	  	
+		$scope.getCustomerPage = function(){
+			$scope.names=null;
+				$http.get("/customer/getCustomerPage?page="+$scope.page+"&size="+$scope.size+"&sort=id,"+$scope.order)
+		  		.then(function (response) {$scope.names = response.data.content;});
+		};
+		
+	});
+</script>
+	</body>
+</html>

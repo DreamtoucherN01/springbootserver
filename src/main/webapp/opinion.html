@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
+	<script src="https://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+	
+	<title>首页</title>
+	<style type="text/css">
+	
+		ul#nav{ width:100%; height:60px; background:#00A2CA;margin:0 auto} 
+		ul#nav li{display:inline; height:60px} 
+		ul#nav li a{display:inline-block; padding:0 20px; height:60px; line-height:60px;
+		 color:#FFF; font-family:"\5FAE\8F6F\96C5\9ED1"; font-size:16px} 
+		ul#nav li a:hover{background:#0095BB}/*设置鼠标滑过或悬停时变化的背景颜色*/ 
+	</style>
+	<style>
+		table, th , td  {
+		  border: 1px solid grey;
+		  border-collapse: collapse;
+		  padding: 5px;
+		}
+		table tr:nth-child(odd)	{
+		  background-color: #f1f1f1;
+		}
+		table tr:nth-child(even) {
+		  background-color: #ffffff;
+		}
+	</style>
+	<script>     
+		function getLocalTime(nS) {     
+			alert(nS)
+		   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+		}     
+	</script> 
+	</head>
+	<body ng-app = "myApp" ng-controller="siteCtrl">	
+      		
+    	<ul id="nav"> 
+		    <li><a href="index.html">修改分类以及分类商品</a></li> 
+		    <li><a href="link.html">主题信息</a></li>
+		    <li><a href="opinion.html">我想说</a></li> 
+		    <li><a href="upload.html">我要上传</a></li>
+		</ul> 
+		
+		<div>
+			<div style="margin-top:20px;">
+				<div style="margin-left:30px;">
+					<table>
+					   <tr>
+					    <th>发布者名字</th>
+					    <th>发布者内容</th>
+					    <th>推荐指数 </th>
+					    <th>均价 </th>
+					    <th>内容分类 </th>
+					    <th>发布时间 </th>
+					    <th>删除发布 </th>
+					  </tr>
+					  <tr ng-repeat="x in names">
+					    <td>{{ x.name }}</td>
+					    <td>{{x.content}}</td>
+					    <td>
+					    	{{x.rate}}
+					    </td>
+					    <td>
+					    	{{x.price}}
+					    </td>
+					    <td>
+					    	{{x.digest}}
+					    </td>
+					    <td>
+					    	{{x.date}}
+					    </td>
+					    <td><button ng-click='deleteword(x.id)' align=center >删除</button></td>
+					  </tr>
+					</table>
+				</div>
+				
+				<br>
+				
+				<div style="margin-left:30px;margin-top:100px">
+				<hr>
+					发布者名字： <input type="text" ng-model="name" id="name"> <br><br>
+		  			发布者内容： <input type="text" ng-model="content" id="value"><br><br>
+		  			发布图片1： <input type="text" ng-model="pic1" id="value"><br><br>
+		  			发布图片2： <input type="text" ng-model="pic2" id="value"><br><br>
+		  			发布图片3： <input type="text" ng-model="pic3" id="value"><br><br>
+		  			发布图片4： <input type="text" ng-model="pic4" id="value"><br><br>
+		  			发布图片5： <input type="text" ng-model="pic5" id="value"><br><br>
+		  			发布图片6： <input type="text" ng-model="pic6" id="value"><br><br>
+		  			
+		  			推荐指数 ：<input type="text" ng-model="order" id="value"><br><br>
+		  			人均价格 ：<input type="text" ng-model="price" id="value"><br><br>
+		  			内容分类 ：<input type="text" ng-model="cate" id="value"><br><br>
+					<button ng-click='saveOpinion()' align=center >发布信息</button><br>
+				</div>
+			</div>
+		</div>
+	
+<script>
+	var app = angular.module('myApp', []);
+	app.controller('siteCtrl', function($scope, $http) {
+		
+		$http({
+			method: 'GET',
+			url: '/word/getAll'
+		}).then(function successCallback(response) {
+				$scope.names = response.data;
+				$scope.message = "Hello, Spring-boot & MongoDB"
+			}, function errorCallback(response) {
+				$scope.message = "ERROR: 404 NOT FOUND!"
+		});
+		$scope.sequence = ["ASC","DESC"];
+		$scope.deleteword = function(id){
+			$http.post("/word/delete/?id="+id)
+			  		.then(function (response) {alert("删除成功");});
+			location.reload()
+		};
+
+		$scope.saveOpinion = function(){
+		  	
+			$http.post("/word/add/?name="+$scope.name+"&content="+$scope.content
+					+"&pic1="+$scope.pic1+"&pic2="+$scope.pic2
+					+"&pic3="+$scope.pic3+"&pic4="+$scope.pic4
+					+"&pic5="+$scope.pic5+"&pic6="+$scope.pic6
+					+"&order="+$scope.order+"&price="+$scope.price
+					+"&cate="+$scope.cate)
+		  		.then(function (response) {
+		  			
+		  			alert("发布成功")
+		  			location.reload()
+		  		});
+	  	};
+	  	
+		$scope.getCustomerPage = function(){
+			$scope.names=null;
+				$http.get("/customer/getCustomerPage?page="+$scope.page+"&size="+$scope.size+"&sort=id,"+$scope.order)
+		  		.then(function (response) {$scope.names = response.data.content;});
+		};
+		
+	});
+</script>
+	</body>
+</html>

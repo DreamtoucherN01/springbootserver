@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
+	<script src="https://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+	<Script language="javascript">
+	function GetRequest() {
+	
+	   var url = location.search; //获取url中"?"符后的字串
+	   var theRequest = new Object();
+	   if (url.indexOf("?") != -1) {
+	      var str = url.substr(1);
+	      strs = str.split("&");
+	      for(var i = 0; i < strs.length; i ++) {
+	         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+	      }
+	   }
+	   return theRequest;
+	
+	}
+	</Script>
+	<title>首页</title>
+	<style type="text/css">
+	
+		ul#nav{ width:100%; height:60px; background:#00A2CA;margin:0 auto} 
+		ul#nav li{display:inline; height:60px} 
+		ul#nav li a{display:inline-block; padding:0 20px; height:60px; line-height:60px;
+		 color:#FFF; font-family:"\5FAE\8F6F\96C5\9ED1"; font-size:16px} 
+		ul#nav li a:hover{background:#0095BB}/*设置鼠标滑过或悬停时变化的背景颜色*/ 
+	</style>
+	<style>
+		table, th , td  {
+		  border: 1px solid grey;
+		  border-collapse: collapse;
+		  padding: 5px;
+		}
+		table tr:nth-child(odd)	{
+		  background-color: #f1f1f1;
+		}
+		table tr:nth-child(even) {
+		  background-color: #ffffff;
+		}
+	</style>
+	
+	</head>
+	<body ng-app = "myApp" ng-controller="siteCtrl">	
+		<div>
+		
+			<div style="margin-top:20px;">
+				<div style="margin-left:30px;">
+					主题详情（一个主题只有一类内容）&nbsp;&nbsp;
+					<hr>
+				</div>
+				<div style="margin-left:30px;">
+					<table>
+					  <tr>
+					    <th>主题名称</th>
+					    <th>子名称</th>
+					    <th>主题内容</th>
+					    <th>删除该主题内容</th>
+					  </tr>
+					  <tr ng-repeat="x in names">
+					    <td>{{ x.name }}</td>
+					    <td>{{ x.subname }}</td>
+					    <td>{{ x.content }}</td>
+					    <td><button ng-click='deleteTheme(x.id)' align=center >删除</button></td>
+					  </tr>
+					</table>
+				</div>
+				
+				<br>
+				
+				<div style="margin-left:30px;margin-top:100px">
+				<hr>
+					主题名称: <input type="text" ng-model="name" id="name"> <br> <br>
+					子名称: <input type="text" ng-model="subname" id="price"> <br> <br>
+		  			主题内容描述: <input type="text" ng-model="content" id="value"> <br> <br>
+		  			图片1: <input type="text" ng-model="pic1" id="value"> <br> <br>
+		  			图片2: <input type="text" ng-model="pic2" id="value"> <br> <br>
+		  			视频1: <input type="text" ng-model="pic3" id="value"> <br> <br>
+					<button ng-click='saveGood()' align=center >添加商品</button><br>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script>
+	var app = angular.module('myApp', []);
+	app.controller('siteCtrl', function($scope, $location, $http) {
+		
+		var params = GetRequest();
+		$scope.sequence = ["ASC","DESC"];
+		$http({
+			method: 'GET',
+			url: '/theme/findByType?types=' + params['id']
+		}).then(function successCallback(response) {
+				$scope.names = response.data;
+				$scope.message = "Hello, Spring-boot & MongoDB"
+			}, function errorCallback(response) {
+				$scope.message = "ERROR: 404 NOT FOUND!"
+		});
+		
+		$scope.deleteTheme = function(id){
+			$http.post("/theme/delete/?id="+id)
+			  		.then(function (response) {alert("删除成功");});
+			location.reload()
+		};
+		
+		
+		$scope.saveGood = function(){
+		  	
+			var url = "/theme/add?name="+$scope.name+"&subname="+$scope.subname
+					+"&content="+$scope.content+"&pic1="+$scope.pic1
+					+"&pic2="+$scope.pic2+"&pic3="+$scope.pic3
+					+"&types="+params['id'];
+			$http.post(url)
+		  		.then(function (response) {
+		  			
+		  			alert("成功添加")
+		  			location.reload()
+		  		});
+	  	};
+	});
+</script>
+	</body>
+</html>
