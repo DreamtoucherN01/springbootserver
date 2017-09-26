@@ -1,7 +1,10 @@
 package module.controller;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -31,7 +34,8 @@ public class GoodController
 	//增
 	@RequestMapping(value="/add")
 	public String saveCustomer(String name, Double price ,
-			String remark, String images, String types, String vedio)
+			String remark, String images, String types, String vedio,
+			String img1, String img2, String img3)
 	{
 		if(null == name || null == images) {
 			return "reject";
@@ -43,9 +47,12 @@ public class GoodController
 		good.setRemark(remark);
 		good.setVideo(vedio);
 		
-		Path p = new Path();
-		p.setPath(images);
-		good.setImages(new Path[]{p});
+		List<String> list = new ArrayList<String>();
+		list.add(images); 
+		if(null != img1 && !img1.equals("undefined")) list.add(img1); 
+		if(null != img2 && !img2.equals("undefined")) list.add(img2); 
+		if(null != img3 && !img3.equals("undefined")) list.add(img3);
+		good.setImages((String[]) list.toArray(new String[list.size()]));
 		
 		good.setTypes(new ObjectId(types));
 		good.setPrice(price);

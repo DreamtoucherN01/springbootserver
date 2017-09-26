@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<link rel = "import" href = "./common/head.html"/> 	
+	<title>已支付订单</title>
+	</head>
+	<body ng-app = "myApp" ng-controller="siteCtrl">	
+      		
+    	<ul id="nav"> 
+		    <li><a href="index.html">修改分类以及分类商品</a></li> 
+		    <li><a href="link.html">主题信息</a></li>
+		    <li><a href="opinion.html">我想说</a></li> 
+		    <li><a href="orderok.html">已支付订单</a></li> 
+		    <li><a href="upload.html">我要上传</a></li>
+		</ul> 
+		
+		<div>
+			<div style="margin-top:20px;">
+				<div style="margin-left:30px;">
+					<table>
+					   <tr>
+					    <th>订单ID</th>
+					    <th>商品总价 </th>
+					    <th>商品信息</th>
+					    <th>收件人姓名 </th>
+					    <th>收件人电话</th>
+					    <th>收件人地址 </th>
+					    <th>订单创建时间 </th>
+					  </tr>
+					  <tr ng-repeat="x in names">
+					    <td>{{ x.id }}</td>
+					    <td>{{x.totalAmount}}</td>
+					    <td>
+					    	<div ng-repeat="y in x.items">
+					    		{{y.goods.name}},{{y.goods.price}},{{y.meta.totalAmount}};
+					    	</div>
+					    </td>
+					    <td>
+					    	{{x.recipientName}}
+					    </td>
+					    <td>
+					    	{{x.recipientTel}}
+					    </td>
+					    <td>
+					    	{{x.recipientAddress}}
+					    </td>
+					    <td><button ng-click='deleteOrder(x.id)' align=center >删除</button></td>
+					  </tr>
+					</table>
+				</div>
+				
+			</div>
+		</div>		
+	
+<script>
+	var app = angular.module('myApp', []);
+	app.controller('siteCtrl', function($scope, $http) {
+		
+		$scope.sequence = ["ASC","DESC"];
+		$http({
+			method: 'GET',
+			url: '/order/getAll?status=confirmed' 
+		}).then(function successCallback(response) {
+				$scope.names = response.data;
+				$scope.message = "Hello, Spring-boot & MongoDB"
+			}, function errorCallback(response) {
+				$scope.message = "ERROR: 404 NOT FOUND!"
+		});
+		
+		$scope.deleteOrder = function(id){
+			$http.post("/order/delete/?id="+id)
+			  		.then(function (response) {alert("删除成功");});
+			location.reload()
+		};
+	  	
+	});
+</script>
+	</body>
+</html>

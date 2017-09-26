@@ -48,7 +48,7 @@ public class FileController
                 stream.write(bytes);  
                 stream.close();  
                 return "You successfully uploaded " + name + " into " + name + ".jpg ! "
-                		+ "+\r\n please accsess the file by url https://55157548.qcloud.la/web/picture/"+name+".jpg" ;  
+                		+ "+\r\n please accsess the file by url https://84251159.sysfashionxiaoziyi.com/web/picture/"+name+".jpg" ;  
             } catch (Exception e) {  
                 return "You failed to upload " + name + " => " + e.getMessage();  
             }  

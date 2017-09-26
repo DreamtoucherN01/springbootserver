@@ -1,11 +1,10 @@
 package module.bean;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import org.bson.types.ObjectId;
 
-public class Goods {
+public class GoodOfItem {
 
 	String id;
 	
@@ -21,11 +20,6 @@ public class Goods {
 	
 	String video;
 	
-	long create_at;
-	
-	long update_at;
-
-
 	public ObjectId getTypes() {
 		return types;
 	}
@@ -58,22 +52,6 @@ public class Goods {
 		this.remark = remark;
 	}
 
-	public long getCreate_at() {
-		return create_at;
-	}
-
-	public void setCreate_at(long create_at) {
-		this.create_at = create_at;
-	}
-
-	public long getUpdate_at() {
-		return update_at;
-	}
-
-	public void setUpdate_at(long update_at) {
-		this.update_at = update_at;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -96,14 +74,6 @@ public class Goods {
 
 	public void setVideo(String video) {
 		this.video = video;
-	}
-
-	@Override
-	public String toString() {
-		return "Goods [id=" + id + ", types=" + types + ", name=" + name
-				+ ", price=" + price + ", remark=" + remark + ", images="
-				+ Arrays.toString(images) + ", video=" + video
-				+ ", create_at=" + create_at + ", update_at=" + update_at + "]";
 	}
 
 }

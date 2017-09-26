@@ -47,7 +47,6 @@ public class ClassifyController {
 	public Iterable<Classifies> getAll()
 	{
 		Iterable<Classifies> ret = cassifyService.getAll();
-		System.out.println(ret);
 		return cassifyService.getAll();
 	}
 }
