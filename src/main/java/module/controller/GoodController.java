@@ -35,7 +35,7 @@ public class GoodController
 	@RequestMapping(value="/add")
 	public String saveCustomer(String name, Double price ,
 			String remark, String images, String types, String vedio,
-			String img1, String img2, String img3)
+			String img1, String img2, String img3, String id)
 	{
 		if(null == name || null == images) {
 			return "reject";
@@ -56,8 +56,15 @@ public class GoodController
 		
 		good.setTypes(new ObjectId(types));
 		good.setPrice(price);
-		goodsService.save(good);
-		return "{\"status\":\"add ok!\"}";
+		if(!id.equals("undefined")){
+			
+			good.setId(id);
+			goodsService.update(good);
+			return "{\"status\":\"add ok!\"}";
+		} else {
+			goodsService.save(good);
+			return "{\"status\":\"add ok!\"}";
+		}
 	}
 	//删除
 	@RequestMapping(value="/delete")

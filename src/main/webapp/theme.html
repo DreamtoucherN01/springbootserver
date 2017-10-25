@@ -82,12 +82,14 @@
 				<div style="margin-left:30px;">
 					<table>
 					  <tr>
+					  	<th>ID</th>
 					    <th>主题名称</th>
 					    <th>子名称</th>
 					    <th>主题内容</th>
 					    <th>删除该主题内容</th>
 					  </tr>
 					  <tr ng-repeat="x in names">
+					  	<td>{{ x.id }}</td>
 					    <td>{{ x.name }}</td>
 					    <td>{{ x.subname }}</td>
 					    <td>{{ x.content }}</td>
@@ -100,6 +102,7 @@
 				
 				<div style="margin-left:30px;margin-top:100px">
 				<hr>
+					ID: <input type="text" ng-model="id" id="id"> <br> <br>
 					主题名称: <input type="text" ng-model="name" id="name"> <br> <br>
 					子名称: <input type="text" ng-model="subname" id="price"> <br> <br>
 		  			主题内容描述: <input type="text" ng-model="content" id="value"> <br> <br>
@@ -140,7 +143,7 @@
 			var url = "/theme/add?name="+$scope.name+"&subname="+$scope.subname
 					+"&content="+$scope.content+"&pic1="+$scope.pic1
 					+"&pic2="+$scope.pic2+"&pic3="+$scope.pic3
-					+"&types="+params['id'];
+					+"&types="+params['id']+"&id="+$scope.id;
 			$http.post(url)
 		  		.then(function (response) {
 		  			

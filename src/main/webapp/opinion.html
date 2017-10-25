@@ -48,6 +48,7 @@
 				<div style="margin-left:30px;">
 					<table>
 					   <tr>
+					   	<th>ID</th>
 					    <th>发布者名字</th>
 					    <th>发布者内容</th>
 					    <th>推荐指数 </th>
@@ -57,6 +58,7 @@
 					    <th>删除发布 </th>
 					  </tr>
 					  <tr ng-repeat="x in names">
+					  	<td>{{ x.id }}</td>
 					    <td>{{ x.name }}</td>
 					    <td>{{x.content}}</td>
 					    <td>
@@ -80,6 +82,7 @@
 				
 				<div style="margin-left:30px;margin-top:100px">
 				<hr>
+					ID： <input type="text" ng-model="id" id="id"> <br><br>
 					发布者名字： <input type="text" ng-model="name" id="name"> <br><br>
 		  			发布者内容： <input type="text" ng-model="content" id="value"><br><br>
 		  			发布图片1： <input type="text" ng-model="pic1" id="value"><br><br>
@@ -124,7 +127,7 @@
 					+"&pic3="+$scope.pic3+"&pic4="+$scope.pic4
 					+"&pic5="+$scope.pic5+"&pic6="+$scope.pic6
 					+"&order="+$scope.order+"&price="+$scope.price
-					+"&cate="+$scope.cate)
+					+"&cate="+$scope.cate+"&id="+$scope.id)
 		  		.then(function (response) {
 		  			
 		  			alert("发布成功")

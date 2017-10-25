@@ -25,6 +25,13 @@ public class WordsService
 		wordsRepository.save(custmr);
 	}
 	
+	@Transactional
+	public void update(Words word) {
+
+		wordsRepository.delete(word.getId());
+		wordsRepository.save(word);
+	}
+	
 	//删除数据
 	@Transactional
 	public void delete(String id)
@@ -42,6 +49,5 @@ public class WordsService
 	{
 		return wordsRepository.findAll();	
 	}
-	
 }
 

@@ -20,6 +20,13 @@ public class ClassifiesService{
 		classifiesRepository.save(classfy);
 	}
 	
+	@Transactional
+	public void update(Classifies classfy)
+	{
+		classifiesRepository.delete(classfy.getObjectId());
+		classifiesRepository.save(classfy);
+	}
+	
 	//删除数据
 	@Transactional
 	public void delete(String id)

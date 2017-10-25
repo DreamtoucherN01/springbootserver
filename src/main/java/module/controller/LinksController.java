@@ -27,16 +27,20 @@ public class LinksController
 	
 	//增
 	@RequestMapping(value="/add")
-	public String saveCustomer(String name,String pic,String link2)
+	public String saveCustomer(String name, String pic, String link2, String id)
 	{
-		if(null == name || null == pic) {
-			return "reject";
-		}
+		
+		if(null == name || null == pic) return "reject";
 		Links link = new Links();
 		link.setTag(name);
 		link.setUrl(pic);
 		link.setContentUrl(link2);
-		linksService.save(link);
+		if(!id.equals("undefined")){
+			link.setObjectId(id);
+			linksService.update(link);
+		} else {
+			linksService.save(link);
+		}
 		return "{\"status\":\"add ok!\"}";
 	}
 	//删除

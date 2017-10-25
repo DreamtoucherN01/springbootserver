@@ -82,6 +82,7 @@
 				<div style="margin-left:30px;">
 					<table>
 					  <tr>
+					  	<th>ID</th>
 					    <th>商品名称</th>
 					    <th>商品价格</th>
 					    <th>标注信息</th>
@@ -93,6 +94,7 @@
 					    <th>删除该商品</th>
 					  </tr>
 					  <tr ng-repeat="x in names">
+					  	<td>{{ x.id }}</td>
 					    <td>{{ x.name }}</td>
 					    <td>{{ x.price }}</td>
 					    <td>{{ x.remark }}</td>
@@ -110,6 +112,7 @@
 				
 				<div style="margin-left:30px;margin-top:100px">
 				<hr>
+					商品ID：<input type="text" ng-model="id" id="id"> <br> <br>
 					商品名称: <input type="text" ng-model="name" id="name"> <br> <br>
 					商品价格: <input type="text" ng-model="price" id="price"> <br> <br>
 		  			标注信息: <input type="text" ng-model="remark" id="value"> <br> <br>
@@ -155,7 +158,8 @@
 		  	
 			var url = "/good/add?name="+$scope.name+"&price="+$scope.price+"&remark="
 					+$scope.remark+"&images="+$scope.images+"&types="+params['id']
-					+"&vedio="+$scope.vedio+"&img1="+$scope.img1+"&img2="+$scope.img2+"&img3="+$scope.img3;
+					+"&vedio="+$scope.vedio+"&img1="+$scope.img1+"&img2="+$scope.img2
+					+"&img3="+$scope.img3+"&id="+$scope.id;
 			$http.post(url)
 		  		.then(function (response) {
 		  			

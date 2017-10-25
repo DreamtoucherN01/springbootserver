@@ -52,6 +52,7 @@
 				<div style="margin-left:30px;">
 					<table>
 					   <tr>
+					   	<th>ID</th>
 					    <th>种类</th>
 					    <th>标注信息</th>
 					    <th>创建时间</th>
@@ -59,6 +60,7 @@
 					    <th>删除该类别</th>
 					  </tr>
 					  <tr ng-repeat="x in names">
+					  	<td>{{ x.objectId }}</td>
 					    <td>{{ x.name }}</td>
 					    <td>{{ x.remark }}</td>
 					    <td>
@@ -75,7 +77,8 @@
 				<div style="margin-left:30px;margin-top:100px">
 				<hr>
 					&nbsp;&nbsp;分类名称: <input type="text" ng-model="name" id="name">
-		  			&nbsp;&nbsp;标注信息: <input type="text" ng-model="remark" id="value"><br>
+		  			&nbsp;&nbsp;标注信息: <input type="text" ng-model="remark" id="value">
+		  			&nbsp;&nbsp;ID(不为空则表示更新信息): <input type="text" ng-model="id" id="value"><br>
 					<br>
 					<button ng-click='saveClassfy()' align=center >添加种类</button><br>
 				</div>
@@ -108,7 +111,8 @@
 		};
 		$scope.saveClassfy = function(){
 		  	
-			$http.post("/classify/add/?name="+$scope.name+"&remark="+$scope.remark)
+			$http.post("/classify/add/?name="+$scope.name+"&remark="+$scope.remark
+					+"&id="+$scope.id)
 		  		.then(function (response) {
 		  			
 		  			alert("成功添加")

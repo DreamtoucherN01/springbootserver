@@ -19,9 +19,11 @@ public class ClassifyController {
 	
 	//增
 	@RequestMapping(value="/add")
-	public String saveCustomer(String name,String remark)
+	public String saveCustomer(String name,String remark,String id)
 	{
+		System.out.print(id);
 		if(null == name || null == remark) {
+			
 			return "reject";
 		}
 		Classifies classfy = new Classifies();
@@ -29,11 +31,18 @@ public class ClassifyController {
 		classfy.setRemark(remark);
 		classfy.setCreate_at(new Date().getTime());
 		classfy.setUpdate_at(new Date().getTime());
-		System.out.println(classfy);
-		cassifyService.save(classfy);
-		return "{\"status\":\"add ok!\"}";
+		if(!id.equals("undefined")){
+			
+			classfy.setObjectId(id);
+			cassifyService.update(classfy);
+			return "{\"status\":\"add ok!\"}";
+		} else {
+			
+			cassifyService.save(classfy);
+			return "{\"status\":\"add ok!\"}";
+		}
 	}
-	
+
 	//删除
 	@RequestMapping(value="/delete")
 	public String delete(String id)

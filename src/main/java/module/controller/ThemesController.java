@@ -25,7 +25,7 @@ public class ThemesController
 	//增
 	@RequestMapping(value="/add")
 	public String saveCustomer(String name, String subname ,
-			String content, String pic1, String pic2, String pic3, String types)
+			String content, String pic1, String pic2, String pic3, String types, String id)
 	{
 		if(null == name || null == subname 
 				|| null == content || null == types) {
@@ -39,7 +39,13 @@ public class ThemesController
 		themes.setPic1(pic1);
 		themes.setPic2(pic2);
 		themes.setPic3(pic3);
-		themesService.save(themes);
+		if(!id.equals("undefined")){
+			
+			themes.setId(id);
+			themesService.update(themes);
+		} else {
+			themesService.save(themes);
+		}
 		return "{\"status\":\"add ok!\"}";
 	}
 	//删除

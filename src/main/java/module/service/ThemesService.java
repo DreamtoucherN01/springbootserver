@@ -30,6 +30,13 @@ public class ThemesService
 		themesRepository.save(custmr);
 	}
 	
+	@Transactional
+	public void update(Themes themes) {
+		
+		themesRepository.delete(themes.getId());
+		themesRepository.save(themes);
+	}
+	
 	//删除数据
 	@Transactional
 	public void delete(String id)
@@ -57,6 +64,6 @@ public class ThemesService
 	{
 		return themesRepository.findAll(pageable);
 	}
-	
+
 }
 

@@ -32,6 +32,13 @@ public class GoodsService
 		goodRepository.save(custmr);
 	}
 	
+	@Transactional
+	public void update(Goods custmr)
+	{
+		goodRepository.delete(custmr.getId());
+		goodRepository.save(custmr);
+	}
+	
 	//删除数据
 	@Transactional
 	public void delete(String id)

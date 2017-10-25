@@ -25,6 +25,13 @@ public class LinksService
 		linksRepository.save(link);
 	}
 	
+	@Transactional
+	public void update(Links link) {
+
+		linksRepository.delete(link.getObjectId());
+		linksRepository.save(link);
+	}
+	
 	//删除数据
 	@Transactional
 	public void delete(String id)
@@ -42,7 +49,5 @@ public class LinksService
 	{
 		return linksRepository.findAll();	
 	}
-	
-
 }
 

@@ -34,7 +34,7 @@ public class WordsController
 	@RequestMapping(value="/add")
 	public String saveCustomer(String name,String content,
 			String pic1, String pic2, String pic3, String pic4, String pic5, String pic6,
-			int order, double price, String cate)
+			int order, double price, String cate, String id)
 	{
 		if(null == name || null == content) {
 			return "reject";
@@ -58,8 +58,12 @@ public class WordsController
 		word.setPic6(pic6);
 		word.setPrice(price);
 		word.setRate(order);
-		System.out.println(word);
-		wordsService.save(word);
+		if(!id.equals("undefined")) {
+			word.setId(id);
+			wordsService.update(word);
+		} else {
+			wordsService.save(word);
+		}
 		return "{\"status\":\"add ok!\"}";
 	}
 	//删除
